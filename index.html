@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Shoe Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-gradient-shift" aria-hidden="true"></div>
+  <div class="bg-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-orb orb-2" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- 1. Header: sticky navbar -->
+  <header class="site-header" id="top">
+    <div class="header-inner">
+      <a href="#top" class="logo">DHANKOR</a>
+
+      <nav class="nav" id="mainNav">
+        <a href="#hero">Home</a>
+        <a href="#featured">Featured</a>
+        <a href="#categories">Categories</a>
+        <a href="#why">Why Us</a>
+        <a href="#footer">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-outline header-cart">Cart <span class="cart-count">0</span></button>
+        <button type="button" class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mainNav">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-shell" id="mainContent">
+    <!-- 2. Hero: 3D shoes + mouse movement -->
+    <section class="hero reveal" id="hero">
+      <div class="hero-left" id="heroParallaxText">
+        <p class="tag">LIMITED DROP · 2026</p>
+        <h1>
+          Premium Shoes<br>
+          <span class="accent">Built for Motion</span>
+        </h1>
+        <p class="hero-copy">
+          Handcrafted comfort meets futuristic design. Move with confidence in footwear engineered for your lifestyle.
+        </p>
+        <div class="hero-actions">
+          <a href="#featured" class="btn btn-primary">Explore Collection</a>
+          <button type="button" class="btn btn-ghost">Our Story</button>
+        </div>
+        <div class="stats">
+          <article>
+            <h3>50K+</h3>
+            <p>Happy customers</p>
+          </article>
+          <article>
+            <h3>4.9</h3>
+            <p>Average rating</p>
+          </article>
+          <article>
+            <h3>24h</h3>
+            <p>Express delivery</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="shoe-stage" id="shoeStage">
+          <div class="hero-parallax hero-parallax--glow" id="heroParallaxGlow" aria-hidden="true"></div>
+          <div class="hero-parallax hero-parallax--ring" id="heroParallaxRing" aria-hidden="true"></div>
+          <div class="shadow" id="heroParallaxShadow"></div>
+          <div class="shoe-float-wrap">
+            <div class="shoe-card" id="shoeCard">
+              <div class="shoe">
+                <div class="shoe-body"></div>
+                <div class="shoe-lace l1"></div>
+                <div class="shoe-lace l2"></div>
+                <div class="shoe-lace l3"></div>
+                <div class="shoe-sole"></div>
+                <div class="shoe-glow"></div>
+              </div>
+            </div>
+          </div>
+          <div class="floating-badge">NEW SEASON</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Featured products: Zomato-style cards -->
+    <section class="section featured" id="featured">
+      <div class="section-head reveal">
+        <p class="tag">FEATURED</p>
+        <h2>Top picks for you</h2>
+        <p class="section-sub">Curated styles with ratings, fast delivery, and premium packaging.</p>
+      </div>
+
+      <div class="featured-grid" id="productGrid"></div>
+    </section>
+
+    <!-- 4. Categories -->
+    <section class="section categories" id="categories">
+      <div class="section-head reveal">
+        <p class="tag">CATEGORIES</p>
+        <h2>Shop by style</h2>
+        <p class="section-sub">Find your fit across our core collections.</p>
+      </div>
+
+      <div class="category-grid">
+        <a href="#featured" class="cat-card reveal card-hover-cat" data-delay="0">
+          <span class="cat-icon" aria-hidden="true">👞</span>
+          <span class="cat-label">Men</span>
+          <span class="cat-hint">Formal &amp; casual</span>
+        </a>
+        <a href="#featured" class="cat-card reveal card-hover-cat" data-delay="60">
+          <span class="cat-icon" aria-hidden="true">👠</span>
+          <span class="cat-label">Women</span>
+          <span class="cat-hint">Elegance &amp; comfort</span>
+        </a>
+        <a href="#featured" class="cat-card reveal card-hover-cat" data-delay="120">
+          <span class="cat-icon" aria-hidden="true">🏃</span>
+          <span class="cat-label">Sports</span>
+          <span class="cat-hint">Performance</span>
+        </a>
+        <a href="#featured" class="cat-card reveal card-hover-cat" data-delay="180">
+          <span class="cat-icon" aria-hidden="true">🥿</span>
+          <span class="cat-label">Casual</span>
+          <span class="cat-hint">Everyday wear</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 5. Why choose us -->
+    <section class="section why" id="why">
+      <div class="section-head reveal">
+        <p class="tag">WHY DHANKOR</p>
+        <h2>Why choose us</h2>
+        <p class="section-sub">Quality you feel from the first step.</p>
+      </div>
+
+      <div class="why-grid">
+        <article class="why-card reveal">
+          <div class="why-icon">✦</div>
+          <h3>Premium materials</h3>
+          <p>Full-grain leathers, engineered mesh, and durable soles sourced for longevity.</p>
+        </article>
+        <article class="why-card reveal" data-delay="80">
+          <div class="why-icon">◇</div>
+          <h3>Perfect fit</h3>
+          <p>Ergonomic lasts and cushioned footbeds designed for all-day comfort.</p>
+        </article>
+        <article class="why-card reveal" data-delay="160">
+          <div class="why-icon">◎</div>
+          <h3>Fast delivery</h3>
+          <p>Tracked shipping, express options, and hassle-free returns on every order.</p>
+        </article>
+        <article class="why-card reveal" data-delay="240">
+          <div class="why-icon">★</div>
+          <h3>Trusted brand</h3>
+          <p>Thousands of five-star reviews and a commitment to sustainable practices.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-drawer-backdrop" id="cartBackdrop"></div>
+    <div class="cart-panel">
+      <div class="cart-head">
+        <h3>Your Cart</h3>
+        <button type="button" class="cart-close" id="cartClose" aria-label="Close cart">×</button>
+      </div>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-footer">
+        <div class="cart-total-row">
+          <span>Total</span>
+          <strong id="cartTotal">$0</strong>
+        </div>
+        <button type="button" class="btn btn-primary cart-order-btn" id="placeOrderBtn">Place Order</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 6. Footer -->
+  <footer class="site-footer reveal" id="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo footer-logo">DHANKOR</span>
+        <p>Premium footwear for those who refuse to compromise on style or comfort.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="#featured">New arrivals</a>
+        <a href="#categories">Categories</a>
+        <a href="#why">Why us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#">Shipping</a>
+        <a href="#">Returns</a>
+        <a href="#">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="#">Newsletter</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Dhankor Shoes. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
