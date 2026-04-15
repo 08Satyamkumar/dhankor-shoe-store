@@ -29,7 +29,6 @@
       </nav>
 
       <div class="header-actions">
-        <button type="button" class="btn btn-ghost" id="adminLoginBtn" style="font-size: 0.8rem; padding: 0.5rem 0.8rem; border-color: rgba(255,255,255,0.2);">Admin Login</button>
         <button type="button" class="btn btn-outline header-cart">Cart <span class="cart-count">0</span></button>
         <button type="button" class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mainNav">
           <span class="nav-toggle-bar"></span>
@@ -79,7 +78,14 @@
           <div class="shadow" id="heroParallaxShadow"></div>
           <div class="shoe-float-wrap">
             <div class="shoe-card" id="shoeCard">
-              <img src="premium_shoe_transparent.png" alt="Premium 3D Shoe" class="real-shoe-spin" style="width: 90%; height: auto; object-fit: contain; pointer-events: none; filter: drop-shadow(0 20px 25px rgba(0,0,0,0.5));">
+              <div class="shoe">
+                <div class="shoe-body"></div>
+                <div class="shoe-lace l1"></div>
+                <div class="shoe-lace l2"></div>
+                <div class="shoe-lace l3"></div>
+                <div class="shoe-sole"></div>
+                <div class="shoe-glow"></div>
+              </div>
             </div>
           </div>
           <div class="floating-badge">NEW SEASON</div>
@@ -174,7 +180,7 @@
       <div class="cart-footer">
         <div class="cart-total-row">
           <span>Total</span>
-          <strong id="cartTotal">₹0</strong>
+          <strong id="cartTotal">$0</strong>
         </div>
         <button type="button" class="btn btn-primary cart-order-btn" id="placeOrderBtn">Place Order</button>
       </div>
@@ -212,7 +218,6 @@
     </div>
   </footer>
 
-  <input type="file" id="adminPhotoInput" accept="image/*" hidden>
   <script src="main.js"></script>
 </body>
 </html>

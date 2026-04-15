@@ -1,4 +1,4 @@
-﻿
+
 (function () {
   "use strict";
 
@@ -167,22 +167,22 @@
   const SIZES = [6, 7, 8, 9, 10];
 
   const PRODUCTS = [
-    { id: "p1", name: "Velocity Running", type: "Running", price: 149, rating: 4.8, reviews: "2.1k", desc: "Feather-light cushioning for long runs.", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff₹auto=format&fit=crop&w=800&q=80", badge: "Bestseller" },
-    { id: "p2", name: "Noir Casual", type: "Casual", price: 129, rating: 4.6, reviews: "1.3k", desc: "Minimal street look with all-day comfort.", image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5₹auto=format&fit=crop&w=800&q=80", badge: "Popular" },
-    { id: "p3", name: "Apex Sports", type: "Sports", price: 179, rating: 4.9, reviews: "980", desc: "Explosive grip and support for training.", image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a₹auto=format&fit=crop&w=800&q=80", badge: "New" },
-    { id: "p4", name: "Urban Sneaker", type: "Sneakers", price: 159, rating: 4.7, reviews: "1.8k", desc: "Premium upper with responsive sole.", image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa₹auto=format&fit=crop&w=800&q=80", badge: "Limited" },
-    { id: "p5", name: "Classic Formal", type: "Formal", price: 189, rating: 4.7, reviews: "860", desc: "Elegant leather finish for formal wear.", image: "https://images.unsplash.com/photo-1610398752800-146f269dfcc8₹auto=format&fit=crop&w=800&q=80", badge: "Premium" },
-    { id: "p6", name: "Sprint Runner", type: "Running", price: 139, rating: 4.5, reviews: "1.1k", desc: "Breathable mesh and light rebound.", image: "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111₹auto=format&fit=crop&w=800&q=80", badge: "Hot" },
-    { id: "p7", name: "Court Flex", type: "Sports", price: 169, rating: 4.6, reviews: "920", desc: "Stable base for quick directional moves.", image: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77₹auto=format&fit=crop&w=800&q=80", badge: "Top Rated" },
-    { id: "p8", name: "Metro Casual", type: "Casual", price: 119, rating: 4.4, reviews: "740", desc: "Soft insole and modern matte finish.", image: "https://images.unsplash.com/photo-1549298916-b41d501d3772₹auto=format&fit=crop&w=800&q=80", badge: "Value" },
-    { id: "p9", name: "Air Glide", type: "Sneakers", price: 174, rating: 4.8, reviews: "1.5k", desc: "Air-cell sole for dynamic comfort.", image: "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2₹auto=format&fit=crop&w=800&q=80", badge: "Trending" },
-    { id: "p10", name: "Monarch Formal", type: "Formal", price: 199, rating: 4.9, reviews: "540", desc: "Handcrafted profile with rich detailing.", image: "https://images.unsplash.com/photo-1614252369475-531eba835eb1₹auto=format&fit=crop&w=800&q=80", badge: "Luxury" },
-    { id: "p11", name: "Trail Sports", type: "Sports", price: 166, rating: 4.6, reviews: "670", desc: "Durable outsole for rugged traction.", image: "https://images.unsplash.com/photo-1491553895911-0055eca6402d₹auto=format&fit=crop&w=800&q=80", badge: "Outdoor" },
-    { id: "p12", name: "Street Wave", type: "Sneakers", price: 155, rating: 4.5, reviews: "1.0k", desc: "Contoured fit with cushioned ankle.", image: "https://images.unsplash.com/photo-1520256862855-398228c41684₹auto=format&fit=crop&w=800&q=80", badge: "Editor Pick" },
-    { id: "p13", name: "Form Fit", type: "Formal", price: 182, rating: 4.7, reviews: "410", desc: "Sleek silhouette for office and events.", image: "https://images.unsplash.com/photo-1556048219-bb6978360b84₹auto=format&fit=crop&w=800&q=80", badge: "New" },
-    { id: "p14", name: "Motion Lite", type: "Running", price: 145, rating: 4.6, reviews: "890", desc: "Balanced support with soft cushioning.", image: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2₹auto=format&fit=crop&w=800&q=80", badge: "Fast" },
-    { id: "p15", name: "Cloud Casual", type: "Casual", price: 124, rating: 4.4, reviews: "620", desc: "Lightweight comfort for daily wear.", image: "https://images.unsplash.com/photo-1543508282-6319a3e2621f₹auto=format&fit=crop&w=800&q=80", badge: "Soft" },
-    { id: "p16", name: "Prime Athlete", type: "Sports", price: 188, rating: 4.8, reviews: "780", desc: "Performance midsole with responsive feel.", image: "https://images.unsplash.com/photo-1560769629-975ec94e6a86₹auto=format&fit=crop&w=800&q=80", badge: "Elite" }
+    { id: "p1", name: "Velocity Running", type: "Running", price: 149, rating: 4.8, reviews: "2.1k", desc: "Feather-light cushioning for long runs.", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80", badge: "Bestseller" },
+    { id: "p2", name: "Noir Casual", type: "Casual", price: 129, rating: 4.6, reviews: "1.3k", desc: "Minimal street look with all-day comfort.", image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80", badge: "Popular" },
+    { id: "p3", name: "Apex Sports", type: "Sports", price: 179, rating: 4.9, reviews: "980", desc: "Explosive grip and support for training.", image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80", badge: "New" },
+    { id: "p4", name: "Urban Sneaker", type: "Sneakers", price: 159, rating: 4.7, reviews: "1.8k", desc: "Premium upper with responsive sole.", image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80", badge: "Limited" },
+    { id: "p5", name: "Classic Formal", type: "Formal", price: 189, rating: 4.7, reviews: "860", desc: "Elegant leather finish for formal wear.", image: "https://images.unsplash.com/photo-1610398752800-146f269dfcc8?auto=format&fit=crop&w=800&q=80", badge: "Premium" },
+    { id: "p6", name: "Sprint Runner", type: "Running", price: 139, rating: 4.5, reviews: "1.1k", desc: "Breathable mesh and light rebound.", image: "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?auto=format&fit=crop&w=800&q=80", badge: "Hot" },
+    { id: "p7", name: "Court Flex", type: "Sports", price: 169, rating: 4.6, reviews: "920", desc: "Stable base for quick directional moves.", image: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=800&q=80", badge: "Top Rated" },
+    { id: "p8", name: "Metro Casual", type: "Casual", price: 119, rating: 4.4, reviews: "740", desc: "Soft insole and modern matte finish.", image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=80", badge: "Value" },
+    { id: "p9", name: "Air Glide", type: "Sneakers", price: 174, rating: 4.8, reviews: "1.5k", desc: "Air-cell sole for dynamic comfort.", image: "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&w=800&q=80", badge: "Trending" },
+    { id: "p10", name: "Monarch Formal", type: "Formal", price: 199, rating: 4.9, reviews: "540", desc: "Handcrafted profile with rich detailing.", image: "https://images.unsplash.com/photo-1614252369475-531eba835eb1?auto=format&fit=crop&w=800&q=80", badge: "Luxury" },
+    { id: "p11", name: "Trail Sports", type: "Sports", price: 166, rating: 4.6, reviews: "670", desc: "Durable outsole for rugged traction.", image: "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=800&q=80", badge: "Outdoor" },
+    { id: "p12", name: "Street Wave", type: "Sneakers", price: 155, rating: 4.5, reviews: "1.0k", desc: "Contoured fit with cushioned ankle.", image: "https://images.unsplash.com/photo-1520256862855-398228c41684?auto=format&fit=crop&w=800&q=80", badge: "Editor Pick" },
+    { id: "p13", name: "Form Fit", type: "Formal", price: 182, rating: 4.7, reviews: "410", desc: "Sleek silhouette for office and events.", image: "https://images.unsplash.com/photo-1556048219-bb6978360b84?auto=format&fit=crop&w=800&q=80", badge: "New" },
+    { id: "p14", name: "Motion Lite", type: "Running", price: 145, rating: 4.6, reviews: "890", desc: "Balanced support with soft cushioning.", image: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=800&q=80", badge: "Fast" },
+    { id: "p15", name: "Cloud Casual", type: "Casual", price: 124, rating: 4.4, reviews: "620", desc: "Lightweight comfort for daily wear.", image: "https://images.unsplash.com/photo-1543508282-6319a3e2621f?auto=format&fit=crop&w=800&q=80", badge: "Soft" },
+    { id: "p16", name: "Prime Athlete", type: "Sports", price: 188, rating: 4.8, reviews: "780", desc: "Performance midsole with responsive feel.", image: "https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=800&q=80", badge: "Elite" }
   ];
 
   const safeParse = (key, fallback) => {
@@ -197,11 +197,6 @@
   let liked = new Set(safeParse(STORAGE.likes, []));
   let cart = safeParse(STORAGE.cart, []);
 
-  STORAGE.products = "dhankor_products_v1";
-  STORAGE.admin = "dhankor_admin_v1";
-  let currentProducts = safeParse(STORAGE.products, PRODUCTS);
-  let isAdminLoggedIn = !!safeParse(STORAGE.admin, false);
-
   function saveLikes() {
     localStorage.setItem(STORAGE.likes, JSON.stringify(Array.from(liked)));
   }
@@ -210,34 +205,18 @@
     localStorage.setItem(STORAGE.cart, JSON.stringify(cart));
   }
 
-  function saveProducts() {
-    localStorage.setItem(STORAGE.products, JSON.stringify(currentProducts));
-  }
-
   function renderProducts() {
     if (!productGrid) return;
 
-    const cardsHtml = currentProducts.map((product, index) => {
+    const cardsHtml = PRODUCTS.map((product, index) => {
       const likeActive = liked.has(product.id);
       const sizeButtons = SIZES.map((size) =>
         `<button type="button" class="size-btn" data-size-btn data-size="${size}" aria-label="Select size ${size}">${size}</button>`
       ).join("");
 
-      let adminMediaControls = "";
-      let priceDisplay = `<span class="z-price">₹${product.price}</span>`;
-      
-      if (isAdminLoggedIn) {
-        adminMediaControls = `
-          <div class="z-admin-cam" data-admin-cam data-product-id="${product.id}" title="Update Photo">ðŸ“·</div>
-          <div class="z-admin-delete" data-admin-delete data-product-id="${product.id}" title="Delete Photo">ðŸ—‘ï¸</div>
-        `;
-        priceDisplay = `<span class="z-price z-admin-price-edit" data-admin-price data-product-id="${product.id}">₹${product.price} âœï¸</span>`;
-      }
-
       return `
         <article class="z-card reveal card-hover" data-delay="${(index % 8) * 60}" data-product-id="${product.id}">
           <div class="z-card-media z${(index % 4) + 1}">
-            ${adminMediaControls}
             <img class="z-img" src="${product.image}" alt="${product.name} shoe" width="800" height="530" loading="lazy">
             <span class="z-badge">${product.badge}</span>
             <button type="button" class="z-like ${likeActive ? "is-liked" : ""}" data-like data-product-id="${product.id}" aria-pressed="${likeActive ? "true" : "false"}" aria-label="Save ${product.name}" title="Save">
@@ -251,10 +230,10 @@
               <span class="z-rating-num">${product.rating}</span>
               <span class="z-rating-count">(${product.reviews})</span>
             </div>
-            <p class="z-desc"><strong>${product.type}</strong> Â· ${product.desc}</p>
+            <p class="z-desc"><strong>${product.type}</strong> · ${product.desc}</p>
             <div class="z-meta">
-              <span class="z-delivery">âš¡ Ships in 24h</span>
-              ${priceDisplay}
+              <span class="z-delivery">⚡ Ships in 24h</span>
+              <span class="z-price">$${product.price}</span>
             </div>
             <label class="size-title">Select Size</label>
             <div class="size-list" data-size-list>
@@ -298,7 +277,7 @@
   }
 
   function getProductById(productId) {
-    return currentProducts.find((item) => item.id === productId);
+    return PRODUCTS.find((item) => item.id === productId);
   }
 
   function flashStatus(card, message) {
@@ -322,7 +301,7 @@
 
     if (!cart.length) {
       cartItemsEl.innerHTML = `<div class="cart-empty">Your cart is empty. Add products with a selected size.</div>`;
-      cartTotalEl.textContent = "₹0";
+      cartTotalEl.textContent = "$0";
       return;
     }
 
@@ -331,14 +310,14 @@
         <img src="${item.image}" alt="${item.name}" width="60" height="60" loading="lazy">
         <div>
           <h4>${item.name}</h4>
-          <p class="cart-item-meta">Size ${item.size} Â· ₹${item.price}</p>
+          <p class="cart-item-meta">Size ${item.size} · $${item.price}</p>
         </div>
         <button type="button" class="cart-remove" data-remove-index="${index}">Remove</button>
       </article>
     `).join("");
 
     cartItemsEl.innerHTML = html;
-    cartTotalEl.textContent = `₹${getCartTotal()}`;
+    cartTotalEl.textContent = `$${getCartTotal()}`;
   }
 
   function toggleCart(open) {
@@ -412,7 +391,7 @@
         updateCartCount();
 
         const originalLabel = addBtn.textContent;
-        addBtn.textContent = "Added âœ“";
+        addBtn.textContent = "Added ✓";
         addBtn.disabled = true;
         flashStatus(card, `Size ${size} added to cart`);
         window.setTimeout(() => {
@@ -452,126 +431,24 @@
         return;
       }
 
-      const lines = cart.map((item, index) => `${index + 1}. ${item.name} - Size ${item.size} - ₹${item.price}`);
+      const lines = cart.map((item, index) => `${index + 1}. ${item.name} - Size ${item.size} - $${item.price}`);
       const total = getCartTotal();
       const message = [
         "Hello Dhankor, I want to place an order:",
         "",
         ...lines,
         "",
-        `Total: ₹${total}`
+        `Total: $${total}`
       ].join("\n");
-      const whatsappUrl = `https://wa.me/919217571488?text=${encodeURIComponent(message)}`;
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, "_blank", "noopener");
     });
-  }
-
-  function setupAdminActions() {
-    const adminLoginBtn = document.getElementById("adminLoginBtn");
-    if (adminLoginBtn) {
-      adminLoginBtn.textContent = isAdminLoggedIn ? "Logout Admin" : "Admin Login";
-      adminLoginBtn.addEventListener("click", () => {
-        if (isAdminLoggedIn) {
-          isAdminLoggedIn = false;
-          localStorage.setItem(STORAGE.admin, false);
-          adminLoginBtn.textContent = "Admin Login";
-          renderProducts();
-          setupReveal();
-        } else {
-          const pass = window.prompt("Enter Admin Password (hint: 1234):");
-          if (pass === "1234") {
-            isAdminLoggedIn = true;
-            localStorage.setItem(STORAGE.admin, true);
-            adminLoginBtn.textContent = "Logout Admin";
-            renderProducts();
-            setupReveal();
-          } else if (pass !== null) {
-            window.alert("Incorrect Password!");
-          }
-        }
-      });
-    }
-
-    let activeEditProductId = null;
-    const adminPhotoInput = document.getElementById("adminPhotoInput");
-
-    if (adminPhotoInput) {
-      adminPhotoInput.addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        if (file && activeEditProductId) {
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            const base64Data = event.target.result;
-            const product = getProductById(activeEditProductId);
-            if (product) {
-              product.image = base64Data;
-              saveProducts();
-              renderProducts();
-              setupReveal();
-            }
-          };
-          reader.readAsDataURL(file);
-        }
-        e.target.value = '';
-      });
-    }
-
-    if (productGrid) {
-      productGrid.addEventListener("click", (event) => {
-        if (!isAdminLoggedIn) return;
-        const target = event.target;
-        
-        const camBtn = target.closest("[data-admin-cam]");
-        if (camBtn) {
-          activeEditProductId = camBtn.getAttribute("data-product-id");
-          if (adminPhotoInput) adminPhotoInput.click();
-          return;
-        }
-
-        const deleteBtn = target.closest("[data-admin-delete]");
-        if (deleteBtn) {
-          const pId = deleteBtn.getAttribute("data-product-id");
-          const defaultProduct = PRODUCTS.find(p => p.id === pId);
-          const currentProd = getProductById(pId);
-          if (defaultProduct && currentProd) {
-             if (window.confirm("Revert to original photo₹")) {
-               currentProd.image = defaultProduct.image;
-               saveProducts();
-               renderProducts();
-               setupReveal();
-             }
-          }
-          return;
-        }
-
-        const priceBtn = target.closest("[data-admin-price]");
-        if (priceBtn) {
-          const pId = priceBtn.getAttribute("data-product-id");
-          const currentProd = getProductById(pId);
-          if (currentProd) {
-            const newPrice = window.prompt(`Enter new price for ${currentProd.name}:`, currentProd.price);
-            if (newPrice !== null && !isNaN(newPrice) && Number(newPrice) > 0) {
-               currentProd.price = Number(newPrice);
-               saveProducts();
-               renderProducts();
-               setupReveal();
-            }
-          }
-          return;
-        }
-      });
-    }
   }
 
   renderProducts();
   setupReveal();
   setupProductInteractions();
   setupCartActions();
-  setupAdminActions();
   renderCart();
   updateCartCount();
 })();
-
-
-
-
