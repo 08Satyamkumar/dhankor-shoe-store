@@ -1,0 +1,178 @@
+[
+  {
+    "id": "p1",
+    "name": "Velocity Running",
+    "type": "Running",
+    "price": 149,
+    "rating": 4.8,
+    "reviews": "2.1k",
+    "desc": "Feather-light cushioning for long runs.",
+    "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+    "badge": "Bestseller"
+  },
+  {
+    "id": "p2",
+    "name": "Noir Casual",
+    "type": "Casual",
+    "price": 129,
+    "rating": 4.6,
+    "reviews": "1.3k",
+    "desc": "Minimal street look with all-day comfort.",
+    "image": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80",
+    "badge": "Popular"
+  },
+  {
+    "id": "p3",
+    "name": "Apex Sports",
+    "type": "Sports",
+    "price": 179,
+    "rating": 4.9,
+    "reviews": "980",
+    "desc": "Explosive grip and support for training.",
+    "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80",
+    "badge": "New"
+  },
+  {
+    "id": "p4",
+    "name": "Urban Sneaker",
+    "type": "Sneakers",
+    "price": 159,
+    "rating": 4.7,
+    "reviews": "1.8k",
+    "desc": "Premium upper with responsive sole.",
+    "image": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80",
+    "badge": "Limited"
+  },
+  {
+    "id": "p5",
+    "name": "Classic Formal",
+    "type": "Formal",
+    "price": 189,
+    "rating": 4.7,
+    "reviews": "860",
+    "desc": "Elegant leather finish for formal wear.",
+    "image": "https://images.unsplash.com/photo-1610398752800-146f269dfcc8?auto=format&fit=crop&w=800&q=80",
+    "badge": "Premium"
+  },
+  {
+    "id": "p6",
+    "name": "Sprint Runner",
+    "type": "Running",
+    "price": 139,
+    "rating": 4.5,
+    "reviews": "1.1k",
+    "desc": "Breathable mesh and light rebound.",
+    "image": "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?auto=format&fit=crop&w=800&q=80",
+    "badge": "Hot"
+  },
+  {
+    "id": "p7",
+    "name": "Court Flex",
+    "type": "Sports",
+    "price": 170,
+    "rating": 4.6,
+    "reviews": "920",
+    "desc": "Stable base for quick directional moves.",
+    "image": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=800&q=80",
+    "badge": "Top Rated"
+  },
+  {
+    "id": "p8",
+    "name": "Metro Casual",
+    "type": "Casual",
+    "price": 119,
+    "rating": 4.4,
+    "reviews": "740",
+    "desc": "Soft insole and modern matte finish.",
+    "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=80",
+    "badge": "Value"
+  },
+  {
+    "id": "p9",
+    "name": "Air Glide",
+    "type": "Sneakers",
+    "price": 174,
+    "rating": 4.8,
+    "reviews": "1.5k",
+    "desc": "Air-cell sole for dynamic comfort.",
+    "image": "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&w=800&q=80",
+    "badge": "Trending"
+  },
+  {
+    "id": "p10",
+    "name": "Monarch Formal",
+    "type": "Formal",
+    "price": 199,
+    "rating": 4.9,
+    "reviews": "540",
+    "desc": "Handcrafted profile with rich detailing.",
+    "image": "https://images.unsplash.com/photo-1614252369475-531eba835eb1?auto=format&fit=crop&w=800&q=80",
+    "badge": "Luxury"
+  },
+  {
+    "id": "p11",
+    "name": "Trail Sports",
+    "type": "Sports",
+    "price": 166,
+    "rating": 4.6,
+    "reviews": "670",
+    "desc": "Durable outsole for rugged traction.",
+    "image": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=800&q=80",
+    "badge": "Outdoor"
+  },
+  {
+    "id": "p12",
+    "name": "Street Wave",
+    "type": "Sneakers",
+    "price": 155,
+    "rating": 4.5,
+    "reviews": "1.0k",
+    "desc": "Contoured fit with cushioned ankle.",
+    "image": "https://images.unsplash.com/photo-1520256862855-398228c41684?auto=format&fit=crop&w=800&q=80",
+    "badge": "Editor Pick"
+  },
+  {
+    "id": "p13",
+    "name": "Form Fit",
+    "type": "Formal",
+    "price": 182,
+    "rating": 4.7,
+    "reviews": "410",
+    "desc": "Sleek silhouette for office and events.",
+    "image": "https://images.unsplash.com/photo-1556048219-bb6978360b84?auto=format&fit=crop&w=800&q=80",
+    "badge": "New"
+  },
+  {
+    "id": "p14",
+    "name": "Motion Lite",
+    "type": "Running",
+    "price": 145,
+    "rating": 4.6,
+    "reviews": "890",
+    "desc": "Balanced support with soft cushioning.",
+    "image": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=800&q=80",
+    "badge": "Fast"
+  },
+  {
+    "id": "p15",
+    "name": "Cloud Casual",
+    "type": "Casual",
+    "price": 124,
+    "rating": 4.4,
+    "reviews": "620",
+    "desc": "Lightweight comfort for daily wear.",
+    "image": "https://images.unsplash.com/photo-1543508282-6319a3e2621f?auto=format&fit=crop&w=800&q=80",
+    "badge": "Soft"
+  },
+  {
+    "id": "p16",
+    "name": "Prime Athlete",
+    "type": "Sports",
+    "price": 188,
+    "rating": 4.8,
+    "reviews": "780",
+    "desc": "Performance midsole with responsive feel.",
+    "image": "https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=800&q=80",
+    "badge": "Elite"
+  }
+]
