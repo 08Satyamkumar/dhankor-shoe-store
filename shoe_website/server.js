@@ -9,7 +9,8 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "1234";
 const PRODUCTS_FILE = path.join(__dirname, "products.json");
 
 app.use(cors());
-app.use(express.json({ limit: "12mb" }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.static(__dirname));
 
 async function readProducts() {
@@ -46,6 +47,52 @@ app.post("/api/admin/verify", (req, res) => {
   res.json({ ok: true });
 });
 
+app.post("/api/products", requireAdmin, async (req, res) => {
+  try {
+    const {
+      name,
+      type,
+      price,
+      rating,
+      reviews,
+      desc,
+      image,
+      badge
+    } = req.body || {};
+
+    const parsedPrice = Number(price);
+    const parsedRating = Number(rating);
+
+    if (
+      !name || !type || !reviews || !desc || !image || !badge ||
+      !Number.isFinite(parsedPrice) || parsedPrice <= 0 ||
+      !Number.isFinite(parsedRating) || parsedRating < 1 || parsedRating > 5
+    ) {
+      return res.status(400).json({ error: "Invalid product details" });
+    }
+
+    const products = await readProducts();
+    const nextId = `p_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+    const product = {
+      id: nextId,
+      name: String(name).trim(),
+      type: String(type).trim(),
+      price: parsedPrice,
+      rating: Number(parsedRating.toFixed(1)),
+      reviews: String(reviews).trim(),
+      desc: String(desc).trim(),
+      image: String(image).trim(),
+      badge: String(badge).trim()
+    };
+
+    products.push(product);
+    await writeProducts(products);
+    res.status(201).json(product);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create product" });
+  }
+});
+
 app.patch("/api/products/:id", requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
@@ -76,6 +123,30 @@ app.patch("/api/products/:id", requireAdmin, async (req, res) => {
     res.json(product);
   } catch (error) {
     res.status(500).json({ error: "Failed to update product" });
+  }
+});
+
+app.delete("/api/products/:id", requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const protectedIds = Array.from({length: 16}, (_, i) => `p${i + 1}`);
+    if (protectedIds.includes(id)) {
+      return res.status(403).json({ error: "Cannot delete default products" });
+    }
+
+    let products = await readProducts();
+    const initialLength = products.length;
+    products = products.filter((item) => item.id !== id);
+
+    if (products.length === initialLength) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    await writeProducts(products);
+    res.json({ ok: true });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete product" });
   }
 });
 

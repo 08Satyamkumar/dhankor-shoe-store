@@ -1,4 +1,4 @@
-﻿
+
 (function () {
   "use strict";
 
@@ -202,9 +202,10 @@
   let adminPassword = safeParse(STORAGE.adminSession, "") || "";
   const API_BASE = (() => {
     const host = window.location.hostname;
-    const isLocalHost = host === "localhost" || host === "127.0.0.1";
-    if (window.location.protocol === "file:" || (isLocalHost && window.location.port !== "3000")) {
-      return "http://localhost:3000/api";
+    const isLocalDevelopment = host === "localhost" || host === "127.0.0.1" || host.startsWith("192.168.") || host.startsWith("10.");
+    if (window.location.protocol === "file:" || (isLocalDevelopment && window.location.port !== "3000")) {
+      const targetHost = window.location.protocol === "file:" ? "localhost" : host;
+      return `http://${targetHost}:3000/api`;
     }
     return `${window.location.origin}/api`;
   })();
@@ -253,6 +254,32 @@
     }
   }
 
+  async function createProductOnServer(payload) {
+    const created = await apiRequest("/products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-admin-password": adminPassword
+      },
+      body: JSON.stringify(payload)
+    });
+
+    currentProducts.push(created);
+    return created;
+  }
+
+  async function deleteProductOnServer(productId) {
+    await apiRequest(`/products/${productId}`, {
+      method: "DELETE",
+      headers: { "x-admin-password": adminPassword }
+    });
+
+    const index = currentProducts.findIndex((item) => item.id === productId);
+    if (index !== -1) {
+      currentProducts.splice(index, 1);
+    }
+  }
+
   function renderProducts() {
     if (!productGrid) return;
 
@@ -266,14 +293,34 @@
       let priceDisplay = `<span class="z-price">₹${product.price}</span>`;
       
       if (isAdminLoggedIn) {
+        const isDefaultProduct = [
+          "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", 
+          "p9", "p10", "p11", "p12", "p13", "p14", "p15", "p16"
+        ].includes(product.id);
+        
+        let trashIconHTML = "";
+        if (!isDefaultProduct) {
+          trashIconHTML = `
+            <button type="button" class="z-admin-trash" data-admin-trash data-product-id="${product.id}" title="Delete Product" aria-label="Delete Product" style="position: absolute; bottom: 12px; right: 12px; z-index: 10; background: rgba(220,53,69,0.9); border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; backdrop-filter: blur(4px);">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M3 6h18"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+              </svg>
+            </button>
+          `;
+        }
+
         adminMediaControls = `
+          ${trashIconHTML}
           <button type="button" class="z-admin-cam" data-admin-cam data-product-id="${product.id}" title="Update Photo" aria-label="Update Photo">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M4 7h4l2-2h4l2 2h4v12H4z"></path>
               <circle cx="12" cy="13" r="3.2"></circle>
             </svg>
           </button>
-          <button type="button" class="z-admin-delete" data-admin-delete data-product-id="${product.id}" title="Delete Photo" aria-label="Revert Photo">
+          <button type="button" class="z-admin-delete" data-admin-delete data-product-id="${product.id}" title="Revert Photo" aria-label="Revert Photo">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M3 6h18"></path>
               <path d="M8 6V4h8v2"></path>
@@ -313,7 +360,7 @@
               ${sizeButtons}
             </div>
             <p class="z-card-status" data-size-status>Select a size to continue</p>
-            <button type="button" class="btn btn-z btn-z-add" data-add-cart data-product-id="${product.id}">Add to cart</button>
+            <button type="button" class="btn btn-z btn-z-add" data-add-cart data-product-id="${product.id}">Order</button>
           </div>
         </article>
       `;
@@ -468,7 +515,7 @@
         addBtn.disabled = true;
         flashStatus(card, `Size ${size} added to cart`);
         window.setTimeout(() => {
-          addBtn.textContent = originalLabel || "Add to cart";
+          addBtn.textContent = originalLabel || "Order";
           addBtn.disabled = false;
         }, 850);
       }
@@ -520,14 +567,40 @@
 
   function setupAdminActions() {
     const adminLoginBtn = document.getElementById("adminLoginBtn");
+    const adminAddProductBtn = document.getElementById("adminAddProductBtn");
+    const adminProductModal = document.getElementById("adminProductModal");
+    const adminProductBackdrop = document.getElementById("adminProductBackdrop");
+    const adminProductClose = document.getElementById("adminProductClose");
+    const adminProductCancel = document.getElementById("adminProductCancel");
+    const adminProductForm = document.getElementById("adminProductForm");
+    const adminProductSubmit = document.getElementById("adminProductSubmit");
+
+    function syncAdminUi() {
+      if (adminLoginBtn) {
+        adminLoginBtn.textContent = isAdminLoggedIn ? "Logout Admin" : "Admin Login";
+      }
+      if (adminAddProductBtn) {
+        adminAddProductBtn.hidden = !isAdminLoggedIn;
+      }
+    }
+
+    function toggleAdminProductModal(open) {
+      if (!adminProductModal) return;
+      adminProductModal.classList.toggle("is-open", open);
+      adminProductModal.setAttribute("aria-hidden", open ? "false" : "true");
+      document.body.style.overflow = open ? "hidden" : "";
+      if (!open) {
+        adminProductForm?.reset();
+      }
+    }
+
     if (adminLoginBtn) {
-      adminLoginBtn.textContent = isAdminLoggedIn ? "Logout Admin" : "Admin Login";
       adminLoginBtn.addEventListener("click", async () => {
         if (isAdminLoggedIn) {
           isAdminLoggedIn = false;
           adminPassword = "";
           localStorage.removeItem(STORAGE.adminSession);
-          adminLoginBtn.textContent = "Admin Login";
+          syncAdminUi();
           renderProducts();
           setupReveal();
         } else {
@@ -542,20 +615,109 @@
               isAdminLoggedIn = true;
               adminPassword = pass;
               localStorage.setItem(STORAGE.adminSession, JSON.stringify(pass));
-              adminLoginBtn.textContent = "Logout Admin";
+              syncAdminUi();
               renderProducts();
               setupReveal();
             } catch (error) {
               if (error.message === "Invalid admin password") {
                 window.alert("Incorrect Password!");
+              } else if (error.message === "Failed to fetch" || error.message.includes("Network")) {
+                window.alert("Server is not running! Please open terminal and run 'npm start'.");
               } else {
-                window.alert("Server connection failed. Please run: npm start");
+                window.alert(`Connection failed: ${error.message}. Please verify the server is running by executing 'npm start'.`);
               }
             }
           }
         }
       });
     }
+
+    adminAddProductBtn?.addEventListener("click", () => toggleAdminProductModal(true));
+    adminProductBackdrop?.addEventListener("click", () => toggleAdminProductModal(false));
+    adminProductClose?.addEventListener("click", () => toggleAdminProductModal(false));
+    adminProductCancel?.addEventListener("click", () => toggleAdminProductModal(false));
+
+    adminProductForm?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!(event.currentTarget instanceof HTMLFormElement)) return;
+
+      const formData = new FormData(event.currentTarget);
+      
+      const imageFile = formData.get("imageFile");
+      const cameraFile = formData.get("cameraFile");
+      const finalImage = (cameraFile && cameraFile.size > 0) ? cameraFile : imageFile;
+      let base64Image = "";
+      if (finalImage && finalImage.size > 0) {
+        base64Image = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.createElement("canvas");
+              let width = img.width;
+              let height = img.height;
+              const maxDim = 800;
+              if (width > maxDim || height > maxDim) {
+                if (width > height) { height *= maxDim/width; width = maxDim; }
+                else { width *= maxDim/height; height = maxDim; }
+              }
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext("2d");
+              ctx.drawImage(img, 0, 0, width, height);
+              resolve(canvas.toDataURL("image/jpeg", 0.70));
+            };
+            img.onerror = () => resolve(e.target.result);
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(finalImage);
+        });
+      }
+
+      const type = String(formData.get("type") || "").trim();
+      let desc = String(formData.get("desc") || "").trim();
+      if (!desc) {
+         desc = `Premium quality ${type.toLowerCase() || 'everyday'} footwear designed for ultimate comfort and modern style.`;
+      }
+
+      const payload = {
+        name: String(formData.get("name") || "").trim(),
+        type: type,
+        price: Number(formData.get("price")),
+        rating: Number(formData.get("rating")),
+        reviews: String(formData.get("reviews") || "").trim(),
+        desc: desc,
+        image: base64Image,
+        badge: String(formData.get("badge") || "").trim()
+      };
+
+      if (adminProductSubmit) {
+        adminProductSubmit.disabled = true;
+        adminProductSubmit.textContent = "Adding...";
+      }
+
+      try {
+        const createdProduct = await createProductOnServer(payload);
+        renderProducts();
+        setupReveal();
+        toggleAdminProductModal(false);
+        setTimeout(() => {
+          const newCard = document.querySelector(`[data-product-id="${createdProduct.id}"]`);
+          if (newCard) {
+            newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            newCard.style.boxShadow = "0 0 20px 5px rgba(220,53,69,0.5)";
+            setTimeout(() => newCard.style.boxShadow = "", 1500);
+          }
+        }, 300);
+      } catch (error) {
+        window.alert(`Failed to add product: ${error.message}`);
+      } finally {
+        if (adminProductSubmit) {
+          adminProductSubmit.disabled = false;
+          adminProductSubmit.textContent = "Add Product";
+        }
+      }
+    });
 
     let activeEditProductId = null;
     const adminPhotoInput = document.getElementById("adminPhotoInput");
@@ -566,18 +728,38 @@
         if (file && activeEditProductId) {
           const reader = new FileReader();
           reader.onload = (event) => {
-            const base64Data = event.target.result;
-            const product = getProductById(activeEditProductId);
-            if (product) {
-              updateProductOnServer(activeEditProductId, { image: base64Data })
-                .then(() => {
-                  renderProducts();
-                  setupReveal();
-                })
-                .catch((error) => {
-                  window.alert(`Failed to update image: ${error.message}`);
-                });
-            }
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.createElement("canvas");
+              let width = img.width;
+              let height = img.height;
+              const maxDim = 800;
+              if (width > maxDim || height > maxDim) {
+                if (width > height) { height *= maxDim/width; width = maxDim; }
+                else { width *= maxDim/height; height = maxDim; }
+              }
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext("2d");
+              ctx.drawImage(img, 0, 0, width, height);
+              const base64Data = canvas.toDataURL("image/jpeg", 0.70);
+              
+              const product = getProductById(activeEditProductId);
+              if (product) {
+                updateProductOnServer(activeEditProductId, { image: base64Data })
+                  .then(() => {
+                    renderProducts();
+                    setupReveal();
+                  })
+                  .catch((error) => {
+                    window.alert(`Failed to update image: ${error.message}`);
+                  });
+              }
+            };
+            img.onerror = () => {
+                // Ignore error silently
+            };
+            img.src = event.target.result;
           };
           reader.readAsDataURL(file);
         }
@@ -617,6 +799,25 @@
           return;
         }
 
+        const trashBtn = target.closest("[data-admin-trash]");
+        if (trashBtn) {
+          const pId = trashBtn.getAttribute("data-product-id");
+          const currentProd = getProductById(pId);
+          if (currentProd) {
+             if (window.confirm(`Are you sure you want to completely DELETE '${currentProd.name}'?`)) {
+               deleteProductOnServer(pId)
+                 .then(() => {
+                   renderProducts();
+                   setupReveal();
+                 })
+                 .catch((error) => {
+                   window.alert(`Failed to delete product: ${error.message}`);
+                 });
+             }
+          }
+          return;
+        }
+
         const priceBtn = target.closest("[data-admin-price]");
         if (priceBtn) {
           const pId = priceBtn.getAttribute("data-product-id");
@@ -638,6 +839,8 @@
         }
       });
     }
+
+    syncAdminUi();
   }
 
   async function initStore() {

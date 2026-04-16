@@ -1506,6 +1506,151 @@ main a[href^="#"] {
   border: 1px solid rgba(255, 255, 255, 0.35);
   color: #cdd7ff;
 }
+
+.admin-add-product-btn {
+  margin-top: 1rem;
+}
+
+.admin-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 210;
+  display: none;
+}
+
+.admin-modal.is-open {
+  display: block;
+}
+
+.admin-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 4, 10, 0.76);
+  backdrop-filter: blur(10px);
+}
+
+.admin-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: min(720px, calc(100% - 2rem));
+  margin: min(6vh, 3rem) auto;
+  background: linear-gradient(165deg, rgba(17, 18, 24, 0.96), rgba(10, 12, 18, 0.98));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 1.25rem;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.48);
+  padding: 1.2rem;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.admin-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admin-modal-head h3 {
+  margin: 0.15rem 0 0;
+  font-size: 1.35rem;
+}
+
+.admin-modal-tag {
+  margin: 0;
+}
+
+.admin-modal-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 1.35rem;
+  cursor: pointer;
+}
+
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.95rem;
+}
+
+.admin-field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.admin-field span {
+  font-size: 0.82rem;
+  color: #d7def8;
+  font-weight: 600;
+}
+
+.admin-field input,
+.admin-field textarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border-radius: 0.85rem;
+  padding: 0.82rem 0.9rem;
+  font: inherit;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.admin-field input::placeholder,
+.admin-field textarea::placeholder {
+  color: #8f99b8;
+}
+
+.admin-field input:focus,
+.admin-field textarea:focus {
+  border-color: rgba(94, 231, 255, 0.6);
+  box-shadow: 0 0 0 4px rgba(94, 231, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.admin-field textarea {
+  resize: vertical;
+  min-height: 92px;
+}
+
+.admin-field-full {
+  grid-column: 1 / -1;
+}
+
+.admin-form-note {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.admin-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.15rem;
+}
+
+@media (max-width: 640px) {
+  .admin-modal-panel {
+    width: calc(100% - 1rem);
+    margin: 1rem auto;
+    padding: 1rem;
+  }
+
+  .admin-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-form-actions {
+    flex-direction: column;
+  }
+}
+
 @keyframes floatAndSpin {
   0%   { transform: translateZ(35px) rotateY(0deg) translateY(0); }
   50%  { transform: translateZ(35px) rotateY(180deg) translateY(-10px); }
