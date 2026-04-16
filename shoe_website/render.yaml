@@ -1,6 +1,7 @@
 services:
   - type: web
     name: shoe-website
+    rootDir: shoe_website
     env: node
     plan: free
     buildCommand: npm install
