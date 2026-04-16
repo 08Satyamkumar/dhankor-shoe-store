@@ -200,7 +200,14 @@
   let currentProducts = [...PRODUCTS];
   let isAdminLoggedIn = false;
   let adminPassword = safeParse(STORAGE.adminSession, "") || "";
-  const API_BASE = "http://localhost:3000/api";
+  const API_BASE = (() => {
+    const host = window.location.hostname;
+    const isLocalHost = host === "localhost" || host === "127.0.0.1";
+    if (window.location.protocol === "file:" || (isLocalHost && window.location.port !== "3000")) {
+      return "http://localhost:3000/api";
+    }
+    return `${window.location.origin}/api`;
+  })();
 
   function saveLikes() {
     localStorage.setItem(STORAGE.likes, JSON.stringify(Array.from(liked)));
