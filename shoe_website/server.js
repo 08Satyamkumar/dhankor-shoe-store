@@ -57,14 +57,16 @@ app.post("/api/products", requireAdmin, async (req, res) => {
       reviews,
       desc,
       image,
+      images,
       badge
     } = req.body || {};
 
     const parsedPrice = Number(price);
     const parsedRating = Number(rating);
+    const productImages = Array.isArray(images) && images.length > 0 ? images.map(img => String(img).trim()) : (image ? [String(image).trim()] : []);
 
     if (
-      !name || !type || !reviews || !desc || !image || !badge ||
+      !name || !type || !reviews || !desc || productImages.length === 0 || !badge ||
       !Number.isFinite(parsedPrice) || parsedPrice <= 0 ||
       !Number.isFinite(parsedRating) || parsedRating < 1 || parsedRating > 5
     ) {
@@ -81,7 +83,8 @@ app.post("/api/products", requireAdmin, async (req, res) => {
       rating: Number(parsedRating.toFixed(1)),
       reviews: String(reviews).trim(),
       desc: String(desc).trim(),
-      image: String(image).trim(),
+      image: productImages[0],
+      images: productImages,
       badge: String(badge).trim()
     };
 
@@ -96,7 +99,7 @@ app.post("/api/products", requireAdmin, async (req, res) => {
 app.patch("/api/products/:id", requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
-    const { price, image } = req.body || {};
+    const { price, image, images } = req.body || {};
     const products = await readProducts();
     const product = products.find((item) => item.id === id);
 
@@ -112,11 +115,15 @@ app.patch("/api/products/:id", requireAdmin, async (req, res) => {
       product.price = parsedPrice;
     }
 
-    if (typeof image !== "undefined") {
+    if (Array.isArray(images) && images.length > 0) {
+      product.images = images.map(img => String(img).trim());
+      product.image = product.images[0];
+    } else if (typeof image !== "undefined") {
       if (typeof image !== "string" || !image.trim()) {
         return res.status(400).json({ error: "Invalid image value" });
       }
       product.image = image;
+      product.images = [image];
     }
 
     await writeProducts(products);

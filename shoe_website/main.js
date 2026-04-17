@@ -168,9 +168,9 @@
   const SIZES = [6, 7, 8, 9, 10];
 
  const PRODUCTS = [
-  { id: "p1", name: "Velocity Running", type: "Running", price: 149, rating: 4.8, reviews: "2.1k", desc: "Feather-light cushioning for long runs.", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80", badge: "Bestseller" },
-  { id: "p2", name: "Noir Casual", type: "Casual", price: 129, rating: 4.6, reviews: "1.3k", desc: "Minimal street look with all-day comfort.", image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80", badge: "Popular" },
-  { id: "p3", name: "Apex Sports", type: "Sports", price: 179, rating: 4.9, reviews: "980", desc: "Explosive grip and support for training.", image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80", badge: "New" },
+  { id: "p1", name: "Velocity Running", type: "Running", price: 149, rating: 4.8, reviews: "2.1k", desc: "Feather-light cushioning for long runs.", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80", images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?auto=format&fit=crop&w=800&q=80"], badge: "Bestseller" },
+  { id: "p2", name: "Noir Casual", type: "Casual", price: 129, rating: 4.6, reviews: "1.3k", desc: "Minimal street look with all-day comfort.", image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80", images: ["https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=800&q=80"], badge: "Popular" },
+  { id: "p3", name: "Apex Sports", type: "Sports", price: 179, rating: 4.9, reviews: "980", desc: "Explosive grip and support for training.", image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80", images: ["https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&w=800&q=80"], badge: "New" },
   { id: "p4", name: "Urban Sneaker", type: "Sneakers", price: 159, rating: 4.7, reviews: "1.8k", desc: "Premium upper with responsive sole.", image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80", badge: "Limited" },
   { id: "p5", name: "Classic Formal", type: "Formal", price: 189, rating: 4.7, reviews: "860", desc: "Elegant leather finish for formal wear.", image: "https://images.unsplash.com/photo-1610398752800-146f269dfcc8?auto=format&fit=crop&w=800&q=80", badge: "Premium" },
   { id: "p6", name: "Sprint Runner", type: "Running", price: 139, rating: 4.5, reviews: "1.1k", desc: "Breathable mesh and light rebound.", image: "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?auto=format&fit=crop&w=800&q=80", badge: "Hot" },
@@ -292,6 +292,16 @@
       let adminMediaControls = "";
       let priceDisplay = `<span class="z-price">₹${product.price}</span>`;
       
+      const productImages = product.images && product.images.length > 0 ? product.images : (product.image ? [product.image] : []);
+      let variantsHtml = "";
+      if (productImages.length > 1) {
+        variantsHtml = `<div class="z-variants">` + productImages.map((imgUrl, i) => `
+          <button type="button" class="z-variant-btn ${i === 0 ? "is-active" : ""}" data-variant-index="${i}" data-variant-img="${imgUrl}" aria-label="Variant ${i + 1}">
+             <img src="${imgUrl}" alt="variant" loading="lazy">
+          </button>
+        `).join("") + `</div>`;
+      }
+
       if (isAdminLoggedIn) {
         const isDefaultProduct = [
           "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", 
@@ -320,7 +330,7 @@
               <circle cx="12" cy="13" r="3.2"></circle>
             </svg>
           </button>
-          <button type="button" class="z-admin-delete" data-admin-delete data-product-id="${product.id}" title="Revert Photo" aria-label="Revert Photo">
+          <button type="button" class="z-admin-delete" data-admin-delete data-product-id="${product.id}" title="Delete Current Photo" aria-label="Delete Current Photo">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M3 6h18"></path>
               <path d="M8 6V4h8v2"></path>
@@ -337,11 +347,12 @@
         <article class="z-card reveal card-hover" data-delay="${(index % 8) * 60}" data-product-id="${product.id}">
           <div class="z-card-media z${(index % 4) + 1}">
             ${adminMediaControls}
-            <img class="z-img" src="${product.image}" alt="${product.name} shoe" width="800" height="530" loading="lazy">
+            <img class="z-img" src="${productImages[0]}" alt="${product.name} shoe" width="800" height="530" loading="lazy">
             <span class="z-badge">${product.badge}</span>
             <button type="button" class="z-like ${likeActive ? "is-liked" : ""}" data-like data-product-id="${product.id}" aria-pressed="${likeActive ? "true" : "false"}" aria-label="Save ${product.name}" title="Save">
               <svg class="z-like-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             </button>
+            ${variantsHtml}
           </div>
           <div class="z-card-body">
             <h3 class="z-title">${product.name}</h3>
@@ -474,6 +485,18 @@
         return;
       }
 
+      const variantBtn = target.closest("[data-variant-index]");
+      if (variantBtn instanceof HTMLButtonElement) {
+        card.querySelectorAll(".z-variant-btn").forEach(b => b.classList.remove("is-active"));
+        variantBtn.classList.add("is-active");
+        const newImgSrc = variantBtn.getAttribute("data-variant-img");
+        const mainImg = card.querySelector(".z-img");
+        if (mainImg && newImgSrc) {
+           mainImg.src = newImgSrc;
+        }
+        return;
+      }
+
       const sizeBtn = target.closest("[data-size-btn]");
       if (sizeBtn instanceof HTMLButtonElement) {
         const selectedSize = sizeBtn.getAttribute("data-size");
@@ -498,12 +521,17 @@
         const product = productId ? getProductById(productId) : null;
         if (!product) return;
 
+        const activeVariantBtn = card.querySelector(".z-variant-btn.is-active");
+        const variantImg = activeVariantBtn ? activeVariantBtn.getAttribute("data-variant-img") : product.image;
+        const variantIndex = activeVariantBtn ? activeVariantBtn.getAttribute("data-variant-index") : "0";
+
         cart.push({
           id: product.id,
           name: product.name,
           price: product.price,
           size,
-          image: product.image
+          image: variantImg,
+          variantIndex
         });
 
         saveCart();
@@ -551,7 +579,7 @@
         return;
       }
 
-      const lines = cart.map((item, index) => `${index + 1}. ${item.name} - Size ${item.size} - ₹${item.price}`);
+      const lines = cart.map((item, index) => `${index + 1}. ${item.name} (Photo ${Number(item.variantIndex || 0) + 1}) - Size ${item.size} - ₹${item.price}`);
       const total = getCartTotal();
       const message = [
         "Hello Dhankor, I want to place an order:",
@@ -643,12 +671,16 @@
 
       const formData = new FormData(event.currentTarget);
       
-      const imageFile = formData.get("imageFile");
-      const cameraFile = formData.get("cameraFile");
-      const finalImage = (cameraFile && cameraFile.size > 0) ? cameraFile : imageFile;
-      let base64Image = "";
-      if (finalImage && finalImage.size > 0) {
-        base64Image = await new Promise((resolve) => {
+      const imageFiles = formData.getAll("imageFile").filter(f => f.size > 0);
+      const cameraFiles = formData.getAll("cameraFile").filter(f => f.size > 0);
+      const finalImages = cameraFiles.length > 0 ? cameraFiles : imageFiles;
+      
+      const MAX_IMAGES = 5;
+      const imagesToProcess = finalImages.slice(0, MAX_IMAGES);
+
+      let base64Images = [];
+      for (const file of imagesToProcess) {
+        const b64 = await new Promise((resolve) => {
           const reader = new FileReader();
           reader.onload = (e) => {
             const img = new Image();
@@ -670,8 +702,9 @@
             img.onerror = () => resolve(e.target.result);
             img.src = e.target.result;
           };
-          reader.readAsDataURL(finalImage);
+          reader.readAsDataURL(file);
         });
+        base64Images.push(b64);
       }
 
       const type = String(formData.get("type") || "").trim();
@@ -687,7 +720,8 @@
         rating: Number(formData.get("rating")),
         reviews: String(formData.get("reviews") || "").trim(),
         desc: desc,
-        image: base64Image,
+        image: base64Images.length > 0 ? base64Images[0] : "",
+        images: base64Images,
         badge: String(formData.get("badge") || "").trim()
       };
 
@@ -723,45 +757,51 @@
     const adminPhotoInput = document.getElementById("adminPhotoInput");
 
     if (adminPhotoInput) {
-      adminPhotoInput.addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        if (file && activeEditProductId) {
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            const img = new Image();
-            img.onload = () => {
-              const canvas = document.createElement("canvas");
-              let width = img.width;
-              let height = img.height;
-              const maxDim = 800;
-              if (width > maxDim || height > maxDim) {
-                if (width > height) { height *= maxDim/width; width = maxDim; }
-                else { width *= maxDim/height; height = maxDim; }
-              }
-              canvas.width = width;
-              canvas.height = height;
-              const ctx = canvas.getContext("2d");
-              ctx.drawImage(img, 0, 0, width, height);
-              const base64Data = canvas.toDataURL("image/jpeg", 0.70);
-              
-              const product = getProductById(activeEditProductId);
-              if (product) {
-                updateProductOnServer(activeEditProductId, { image: base64Data })
-                  .then(() => {
-                    renderProducts();
-                    setupReveal();
-                  })
-                  .catch((error) => {
-                    window.alert(`Failed to update image: ${error.message}`);
-                  });
-              }
-            };
-            img.onerror = () => {
-                // Ignore error silently
-            };
-            img.src = event.target.result;
-          };
-          reader.readAsDataURL(file);
+      adminPhotoInput.addEventListener("change", async (e) => {
+        const files = Array.from(e.target.files).filter(f => f.size > 0);
+        if (files.length > 0 && activeEditProductId) {
+          let base64Array = [];
+          for (const file of files) {
+             const b64 = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                  const img = new Image();
+                  img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    let width = img.width;
+                    let height = img.height;
+                    const maxDim = 800;
+                    if (width > maxDim || height > maxDim) {
+                      if (width > height) { height *= maxDim/width; width = maxDim; }
+                      else { width *= maxDim/height; height = maxDim; }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, width, height);
+                    resolve(canvas.toDataURL("image/jpeg", 0.70));
+                  };
+                  img.onerror = () => resolve(event.target.result);
+                  img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+             });
+             base64Array.push(b64);
+          }
+          
+          if (base64Array.length > 0) {
+            const product = getProductById(activeEditProductId);
+            const currentImages = product.images && product.images.length > 0 ? product.images : (product.image ? [product.image] : []);
+            const maxAllowed = 5;
+            const newImages = [...currentImages, ...base64Array].slice(0, maxAllowed);
+            
+            updateProductOnServer(activeEditProductId, { images: newImages })
+              .then(() => {
+                renderProducts();
+                setupReveal();
+              })
+              .catch((error) => window.alert(`Failed to update image(s): ${error.message}`));
+          }
         }
         e.target.value = '';
       });
@@ -782,17 +822,31 @@
         const deleteBtn = target.closest("[data-admin-delete]");
         if (deleteBtn) {
           const pId = deleteBtn.getAttribute("data-product-id");
-          const defaultProduct = PRODUCTS.find(p => p.id === pId);
           const currentProd = getProductById(pId);
-          if (defaultProduct && currentProd) {
-             if (window.confirm("Revert to original photo₹")) {
-               updateProductOnServer(pId, { image: defaultProduct.image })
+          if (currentProd) {
+             const card = deleteBtn.closest(".z-card");
+             const activeVariantBtn = card ? card.querySelector(".z-variant-btn.is-active") : null;
+             let activeIndex = 0;
+             if (activeVariantBtn) {
+                activeIndex = parseInt(activeVariantBtn.getAttribute("data-variant-index") || "0", 10);
+             }
+
+             const currentImages = currentProd.images && currentProd.images.length > 0 ? [...currentProd.images] : (currentProd.image ? [currentProd.image] : []);
+             
+             if (currentImages.length <= 1) {
+                window.alert("Cannot delete the only photo! If you want to remove the shoe completely, use the red Trash icon.");
+                return;
+             }
+
+             if (window.confirm(`Delete Photo ${activeIndex + 1} from this shoe?`)) {
+               currentImages.splice(activeIndex, 1);
+               updateProductOnServer(pId, { images: currentImages })
                  .then(() => {
                    renderProducts();
                    setupReveal();
                  })
                  .catch((error) => {
-                   window.alert(`Failed to revert image: ${error.message}`);
+                   window.alert(`Failed to delete image variant: ${error.message}`);
                  });
              }
           }

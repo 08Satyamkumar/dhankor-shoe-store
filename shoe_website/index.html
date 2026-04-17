@@ -223,12 +223,12 @@
             <textarea name="desc" rows="3" placeholder="Joote ke baare mein kuch likhein (Optional - warna auto bhar jayega)"></textarea>
           </label>
           <label class="admin-field admin-field-full">
-            <span>Upload Photo</span>
+            <span>Upload Photos (Up to 5 colors/variants)</span>
             <div style="display: flex; gap: 0.75rem; margin-top: 0.35rem; align-items: center; flex-wrap: wrap;">
-              <input type="file" name="imageFile" accept="image/*" style="flex: 1; min-width: 200px;">
+              <input type="file" name="imageFile" accept="image/*" multiple style="flex: 1; min-width: 200px;">
               <label style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 0.65rem; padding: 0.65rem 1rem; color: #fff; cursor: pointer; display: inline-block; font-size: 0.85rem; text-align: center;">
-                📸 Take Photo
-                <input type="file" name="cameraFile" accept="image/*" capture="environment" hidden>
+                📸 Take Photo(s)
+                <input type="file" name="cameraFile" accept="image/*" capture="environment" multiple hidden>
               </label>
             </div>
           </label>
@@ -273,7 +273,7 @@
     </div>
   </footer>
 
-  <input type="file" id="adminPhotoInput" accept="image/*" hidden>
+  <input type="file" id="adminPhotoInput" accept="image/*" multiple hidden>
   <script src="main.js"></script>
 </body>
 </html>
