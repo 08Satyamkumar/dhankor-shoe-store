@@ -256,7 +256,7 @@ app.post("/api/products", requireAuth, async (req, res) => {
     await product.save();
     res.status(201).json(product);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create product in cloud" });
+    res.status(500).json({ error: "Failed to create product in cloud: " + error.message });
   }
 });
 
@@ -299,7 +299,7 @@ app.patch("/api/products/:id", requireAuth, async (req, res) => {
     await product.save();
     res.json(product);
   } catch (error) {
-    res.status(500).json({ error: "Failed to update product in cloud" });
+    res.status(500).json({ error: "Failed to update product in cloud: " + error.message });
   }
 });
 
