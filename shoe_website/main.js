@@ -756,12 +756,17 @@
               ctx.drawImage(img, 0, 0, width, height);
               resolve(canvas.toDataURL("image/jpeg", 0.70));
             };
-            img.onerror = () => resolve(e.target.result);
-            img.src = e.target.result;
-          };
-          reader.readAsDataURL(file);
-        });
-        base64Images.push(b64);
+              img.onerror = () => {
+                window.alert("Ye image format support nahi kar raha. Kripya normal JPEG ya PNG photo upload karein.");
+                resolve(null);
+              };
+              img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          });
+          if (b64 !== null) {
+            base64Images.push(b64);
+          }
       }
 
       const type = String(formData.get("type") || "").trim();
@@ -838,12 +843,17 @@
                     ctx.drawImage(img, 0, 0, width, height);
                     resolve(canvas.toDataURL("image/jpeg", 0.70));
                   };
-                  img.onerror = () => resolve(event.target.result);
+                  img.onerror = () => {
+                    window.alert("Ye image format support nahi kar raha. Kripya normal JPEG ya PNG photo upload karein.");
+                    resolve(null);
+                  };
                   img.src = event.target.result;
                 };
                 reader.readAsDataURL(file);
              });
-             base64Array.push(b64);
+             if (b64 !== null) {
+               base64Array.push(b64);
+             }
           }
           
           if (base64Array.length > 0) {
