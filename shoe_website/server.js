@@ -15,6 +15,8 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "1234";
 const MONGO_URI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET || "dhankor_super_secret_key_2026";
 
+let lastDbError = null;
+
 // Connection logic moved to startServer() at the bottom
 
 app.use(cors());
@@ -313,6 +315,15 @@ app.get("/ping", (req, res) => {
   res.send("pong");
 });
 
+app.get("/api/db-status", (req, res) => {
+  res.json({
+    readyState: mongoose.connection.readyState,
+    hasMongoUri: !!process.env.MONGO_URI,
+    mongoUriPrefix: process.env.MONGO_URI ? process.env.MONGO_URI.substring(0, 15) + "..." : "none",
+    lastError: lastDbError ? lastDbError.message : null
+  });
+});
+
 const startServer = async () => {
   try {
     if (MONGO_URI && MONGO_URI !== 'put_your_cloud_database_link_here') {
@@ -331,9 +342,11 @@ const startServer = async () => {
       }
     } else {
       console.log("⚠️ WARNING: MONGO_URI is missing.");
+      lastDbError = new Error("MONGO_URI environment variable is missing");
     }
   } catch (err) {
     console.log("❌ Failed to connect to MongoDB:", err.message);
+    lastDbError = err;
   }
 
   // Only start listening for requests AFTER attempting database connection
