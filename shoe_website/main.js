@@ -2,6 +2,15 @@
 (function () {
   "use strict";
 
+  // ==========================================
+  // 🏪 SHOP CONFIGURATION (FOR SINGLE VENDOR)
+  // Edit these values before selling the software
+  // ==========================================
+  const SHOP_CONFIG = {
+    shopName: "Dhankor Shoes",
+    whatsappNumber: "919217571488" // Enter with country code, no + or spaces
+  };
+
   const clamp = (n, min, max) => Math.min(Math.max(n, min), max);
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -200,6 +209,8 @@
   let currentProducts = [...PRODUCTS];
   let isAdminLoggedIn = false;
   let adminPassword = safeParse(STORAGE.adminSession, "") || "";
+  let currentShopPhone = SHOP_CONFIG.whatsappNumber;
+  let currentShopName = SHOP_CONFIG.shopName;
   const API_BASE = (() => {
     const host = window.location.hostname;
     const isLocalDevelopment = host === "localhost" || host === "127.0.0.1" || host.startsWith("192.168.") || host.startsWith("10.");
@@ -234,8 +245,50 @@
   }
 
   async function loadProducts() {
-    const products = await apiRequest("/products");
-    currentProducts = Array.isArray(products) ? products : [...PRODUCTS];
+    let urlInfo = window.location.pathname;
+    let shopQuery = "";
+    if (urlInfo.startsWith("/shop/")) {
+      const slug = urlInfo.split("/")[2];
+      if (slug) {
+        shopQuery = `?shopUrl=${encodeURIComponent(slug)}`;
+      }
+    }
+    
+    try {
+      const result = await apiRequest(`/products${shopQuery}`);
+      // The API now returns either an array (Mega Mall) or { products, shopInfo } (VIP Storefront)
+      if (Array.isArray(result)) {
+        currentProducts = result;
+      } else if (result.products) {
+        currentProducts = result.products;
+        
+        // Update branding for VIP Storefront
+        if (result.shopInfo) {
+          currentShopName = result.shopInfo.shopName;
+          if (result.shopInfo.whatsappNumber) {
+            // Clean the number just in case (remove spaces/pluses)
+            currentShopPhone = result.shopInfo.whatsappNumber.replace(/[^0-9]/g, '');
+            if(currentShopPhone.length === 10) {
+              currentShopPhone = "91" + currentShopPhone;
+            }
+          }
+
+          const logoEl = document.querySelector(".site-header .logo");
+          if (logoEl) {
+            logoEl.textContent = result.shopInfo.shopName.toUpperCase();
+          }
+          // Hide master admin login on VIP storefronts
+          const adminLoginBtn = document.getElementById("adminLoginBtn");
+          if (adminLoginBtn) adminLoginBtn.hidden = true;
+          
+          const footerBrand = document.querySelector(".footer-logo");
+          if (footerBrand) footerBrand.textContent = result.shopInfo.shopName.toUpperCase();
+        }
+      }
+    } catch (e) {
+      console.log("Failed to load products:", e);
+      currentProducts = [...PRODUCTS]; // fallback to default array
+    }
   }
 
   async function updateProductOnServer(productId, payload) {
@@ -582,13 +635,13 @@
       const lines = cart.map((item, index) => `${index + 1}. ${item.name} (Photo ${Number(item.variantIndex || 0) + 1}) - Size ${item.size} - ₹${item.price}`);
       const total = getCartTotal();
       const message = [
-        "Hello Dhankor, I want to place an order:",
+        `Hello ${currentShopName}, I want to place an order:`,
         "",
         ...lines,
         "",
         `Total: ₹${total}`
       ].join("\n");
-      const whatsappUrl = `https://wa.me/919217571488?text=${encodeURIComponent(message)}`;
+      const whatsappUrl = `https://wa.me/${currentShopPhone}?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, "_blank", "noopener");
     });
   }
@@ -604,11 +657,15 @@
     const adminProductSubmit = document.getElementById("adminProductSubmit");
 
     function syncAdminUi() {
+      const kycPanelBtn = document.getElementById("kycPanelBtn");
       if (adminLoginBtn) {
         adminLoginBtn.textContent = isAdminLoggedIn ? "Logout Admin" : "Admin Login";
       }
       if (adminAddProductBtn) {
         adminAddProductBtn.hidden = !isAdminLoggedIn;
+      }
+      if (kycPanelBtn) {
+        kycPanelBtn.hidden = !isAdminLoggedIn;
       }
     }
 
@@ -926,6 +983,56 @@
     setupAdminActions();
     renderCart();
     updateCartCount();
+  }
+
+  // --- GEO SEARCH (NEARBY SHOPS) ---
+  const locateShopsBtn = document.getElementById("locateShopsBtn");
+  const nearbyShopsSection = document.getElementById("nearbyShopsSection");
+  const nearbyShopsGrid = document.getElementById("nearbyShopsGrid");
+  const nearbyShopsDesc = document.getElementById("nearbyShopsDesc");
+
+  if (locateShopsBtn) {
+    locateShopsBtn.addEventListener("click", () => {
+      if (!navigator.geolocation) {
+        window.alert("Geolocation is not supported by your browser");
+        return;
+      }
+      locateShopsBtn.textContent = "Locating...";
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          const res = await fetch(`${API_BASE}/shops/nearby?lat=${latitude}&lng=${longitude}`);
+          if (!res.ok) throw new Error("Failed");
+          const shops = await res.json();
+          
+          if (nearbyShopsSection) {
+            nearbyShopsSection.hidden = false;
+            nearbyShopsSection.scrollIntoView({ behavior: 'smooth' });
+            
+            if (shops.length === 0) {
+              nearbyShopsDesc.textContent = "No verified shops found within 10km of your location.";
+              nearbyShopsGrid.innerHTML = "";
+            } else {
+              nearbyShopsDesc.textContent = `Found ${shops.length} verified stores near you!`;
+              nearbyShopsGrid.innerHTML = shops.map(shop => `
+                <article class="z-card reveal is-visible" style="padding: 1.5rem; text-align: center;">
+                  <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem; font-weight: 700;">${shop.shopName}</h3>
+                  <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 1rem;">Owner: ${shop.ownerName}</p>
+                  <a href="/shop/${shop.shopUrl}" class="btn btn-outline" style="width: 100%; border-color: #8ee9ff; color: #8ee9ff;">Visit Store</a>
+                </article>
+              `).join('');
+            }
+          }
+        } catch (err) {
+          window.alert("Failed to find nearby shops.");
+        } finally {
+          locateShopsBtn.textContent = "📍 Locate Shops Near Me";
+        }
+      }, (err) => {
+        window.alert("Please allow location access to find shops.");
+        locateShopsBtn.textContent = "📍 Locate Shops Near Me";
+      });
+    });
   }
 
   initStore();

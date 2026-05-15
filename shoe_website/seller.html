@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Portal | Dhankor SaaS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="seller.css">
+</head>
+<body>
+  <div class="bg-gradient-shift" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner" style="justify-content: space-between;">
+      <a href="index.html" class="logo">DHANKOR <span style="font-weight: 300; font-size: 0.8rem; margin-left: 0.5rem; opacity: 0.7;">SELLER PORTAL</span></a>
+      <div class="header-actions">
+        <button type="button" class="btn btn-outline" id="sellerLogoutBtn" hidden>Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-shell" style="padding-top: 100px;">
+    
+    <!-- Auth Section -->
+    <section id="authSection" class="auth-section">
+      <div class="auth-box">
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-tab="login">Login</button>
+          <button class="auth-tab" data-tab="register">Register Shop</button>
+        </div>
+        
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form active">
+          <h2>Welcome back, Seller</h2>
+          <p class="section-sub" style="margin-bottom: 2rem;">Log in to manage your inventory and see your demand.</p>
+          <label class="admin-field admin-field-full">
+            <span>Email</span>
+            <input type="email" name="email" required placeholder="you@shop.com">
+          </label>
+          <label class="admin-field admin-field-full">
+            <span>Password</span>
+            <input type="password" name="password" required placeholder="Enter password">
+          </label>
+          <div class="admin-form-actions" style="margin-top: 1.5rem;">
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Login to Dashboard</button>
+          </div>
+        </form>
+
+        <!-- Register Form -->
+        <form id="registerForm" class="auth-form">
+          <h2>Open your store</h2>
+          <p class="section-sub" style="margin-bottom: 2rem;">Join Dhankor and reach thousands of hype sneakerheads.</p>
+          <label class="admin-field admin-field-full">
+            <span>Shop Name</span>
+            <input type="text" name="shopName" required placeholder="e.g. Sole Kicks">
+          </label>
+          <label class="admin-field admin-field-full">
+            <span>Owner Name</span>
+            <input type="text" name="ownerName" required placeholder="Your full name">
+          </label>
+          <label class="admin-field admin-field-full">
+            <span>WhatsApp Number</span>
+            <input type="tel" name="whatsappNumber" required placeholder="For orders & alerts">
+          </label>
+          <label class="admin-field admin-field-full">
+            <span>Email</span>
+            <input type="email" name="email" required placeholder="you@shop.com">
+          </label>
+          <label class="admin-field admin-field-full">
+            <span>Password</span>
+            <input type="password" name="password" required placeholder="Choose a strong password">
+          </label>
+          <div class="admin-form-actions" style="margin-top: 1.5rem;">
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Register Shop</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboardSection" class="dashboard-section" style="display: none;">
+      <div class="dashboard-head" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
+        <div>
+          <p class="tag">SELLER DASHBOARD</p>
+          <h2 id="welcomeText" style="margin: 0;">Welcome, Shop</h2>
+        </div>
+        <button type="button" class="btn btn-primary" id="dashboardAddProductBtn">Add New Product</button>
+      </div>
+      
+      <!-- Seller Status & VIP Link Banner -->
+      <div id="sellerStatusBanner" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+        <h4 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: #fff;">Your VIP Storefront Details</h4>
+        <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem;">Share this unique link with your customers. Only your shoes will appear here!</p>
+        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+          <a id="vipStoreLink" href="#" target="_blank" style="color: #60a5fa; text-decoration: none; font-weight: 600; font-size: 0.95rem; background: rgba(96, 165, 250, 0.1); padding: 0.5rem 1rem; border-radius: 6px; display: inline-block;">Link</a>
+          <span id="kycStatusBadge" class="status-badge" style="padding: 0.4rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.8rem;">Checking Status...</span>
+        </div>
+        <p id="kycWarningMsg" style="color: #ef4444; font-size: 0.8rem; margin-top: 0.8rem; display: none;">⚠️ Your shop is currently Pending. Master Admin must approve you before your storefront goes live to the public.</p>
+      </div>
+
+      <div id="sellerProductGrid" class="featured-grid" style="margin-top: 2rem;">
+        <!-- Seller's products will go here -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Reusing Admin Modal for Seller Product Add -->
+  <div class="admin-modal" id="sellerProductModal" aria-hidden="true">
+    <div class="admin-modal-backdrop" id="sellerProductBackdrop"></div>
+    <div class="admin-modal-panel" role="dialog" aria-modal="true">
+      <div class="admin-modal-head">
+        <div>
+          <p class="tag admin-modal-tag">YOUR SHOP</p>
+          <h3>Add Product to Catalog</h3>
+        </div>
+        <button type="button" class="admin-modal-close" id="sellerProductClose">×</button>
+      </div>
+      <form class="admin-form" id="sellerProductForm">
+        <input type="hidden" id="editProductId">
+        <div class="admin-form-grid">
+          <label class="admin-field">
+            <span>Product Name</span>
+            <input type="text" name="name" placeholder="Sneaker Model" required>
+          </label>
+          <label class="admin-field">
+            <span>Category</span>
+            <input type="text" name="type" placeholder="Sports, Casual..." required>
+          </label>
+          <label class="admin-field">
+            <span>Price</span>
+            <input type="number" name="price" min="1" step="1" required>
+          </label>
+          <label class="admin-field">
+            <span>Rating</span>
+            <input type="number" name="rating" min="1" max="5" step="0.1" value="5.0" required>
+          </label>
+          <label class="admin-field">
+            <span>Reviews</span>
+            <input type="text" name="reviews" value="0" required>
+          </label>
+          <label class="admin-field">
+            <span>Badge</span>
+            <input type="text" name="badge" placeholder="e.g. Hot, New">
+          </label>
+          <label class="admin-field admin-field-full">
+            <span>Description</span>
+            <textarea name="desc" rows="3" placeholder="Description"></textarea>
+          </label>
+          <label class="admin-field admin-field-full">
+            <span>Upload Photo(s)</span>
+            <div style="display: flex; gap: 0.75rem; margin-top: 0.35rem; align-items: center;">
+              <input type="file" name="imageFile" accept="image/*" multiple style="flex: 1;">
+            </div>
+          </label>
+        </div>
+        <div class="admin-form-actions">
+          <button type="button" class="btn btn-ghost" id="sellerProductCancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="sellerProductSubmit">Review & Publish</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="seller.js"></script>
+</body>
+</html>
