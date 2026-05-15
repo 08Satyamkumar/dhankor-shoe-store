@@ -207,8 +207,8 @@
   let liked = new Set(safeParse(STORAGE.likes, []));
   let cart = safeParse(STORAGE.cart, []);
   let currentProducts = [...PRODUCTS];
-  let isAdminLoggedIn = false;
   let adminPassword = safeParse(STORAGE.adminSession, "") || "";
+  let isAdminLoggedIn = !!adminPassword;
   let currentShopPhone = SHOP_CONFIG.whatsappNumber;
   let currentShopName = SHOP_CONFIG.shopName;
   const API_BASE = (() => {
