@@ -15,29 +15,36 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "1234";
 const MONGO_URI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET || "dhankor_super_secret_key_2026";
 
-// Connect to MongoDB Atlas
-if (MONGO_URI && MONGO_URI !== 'put_your_cloud_database_link_here') {
-  mongoose.connect(MONGO_URI)
-    .then(async () => {
+// Vercel Serverless robust DB connection middleware
+const connectDB = async (req, res, next) => {
+  if (mongoose.connection.readyState === 1) {
+    return next();
+  }
+  try {
+    if (MONGO_URI && MONGO_URI !== 'put_your_cloud_database_link_here') {
+      await mongoose.connect(MONGO_URI);
       console.log("✅ Linked to MongoDB Cloud Database");
+      
       // Seed default products if database is completely empty
       const count = await Product.countDocuments();
       if (count === 0) {
         console.log("Database is empty. Seeding from locally saved products.json...");
-        try {
-          const raw = await fs.readFile(path.join(__dirname, "products.json"), "utf8");
-          const defaultProducts = JSON.parse(raw);
-          await Product.insertMany(defaultProducts);
-          console.log("✅ Database seeded with default products!");
-        } catch (e) {
-          console.log("⚠️ Could not seed initial data:", e.message);
-        }
+        const raw = await fs.readFile(path.join(__dirname, "products.json"), "utf8");
+        const defaultProducts = JSON.parse(raw);
+        await Product.insertMany(defaultProducts);
+        console.log("✅ Database seeded with default products!");
       }
-    })
-    .catch((err) => console.log("❌ Failed to connect to MongoDB:", err.message));
-} else {
-  console.log("⚠️ WARNING: MONGO_URI is missing or invalid in .env file. The server won't function correctly without it.");
-}
+    } else {
+      console.log("⚠️ WARNING: MONGO_URI is missing.");
+    }
+    next();
+  } catch (err) {
+    console.log("❌ Failed to connect to MongoDB:", err.message);
+    res.status(500).json({ error: "Database connection failed" });
+  }
+};
+
+app.use('/api', connectDB);
 
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
